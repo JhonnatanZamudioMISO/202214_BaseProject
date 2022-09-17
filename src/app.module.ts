@@ -14,7 +14,7 @@ import { AeropuertoEntity } from './aeropuerto/aeropuerto.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'postgres',
+      password: 'Jhotec2013',
       database: 'primer_parcial',
       entities: [AerolineaEntity, AeropuertoEntity],
       dropSchema: true,
