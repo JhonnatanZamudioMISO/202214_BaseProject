@@ -53,4 +53,8 @@ describe('AeropuertoService', () => {
     expect(aeropuerto.pais).toEqual(aeropuertoGuardado.pais)
     expect(aeropuerto.ciudad).toEqual(aeropuertoGuardado.ciudad)
   });
+
+  it('findOne deberia mostrar una excepción cuando el id del aeropuerto no existe', async () => {
+    await expect(() => service.findOne("0")).rejects.toHaveProperty("message", "No se encontró el aeropuerto con la identificación proporcionada")
+  });
 });
