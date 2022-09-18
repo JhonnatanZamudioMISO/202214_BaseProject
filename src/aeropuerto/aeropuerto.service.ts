@@ -37,4 +37,11 @@ export class AeropuertoService {
         aeropuerto.id = id;
         return await this.aeropuertoRepository.save(aeropuerto);
     }
+
+    async delete(id: string) {
+        const aeropuerto: AeropuertoEntity = await this.aeropuertoRepository.findOne({where:{id}});
+        if (!aeropuerto)
+          throw new BusinessLogicException("No se encontró el aeropuerto con la identificación proporcionada", BusinessError.NOT_FOUND);
+        await this.aeropuertoRepository.remove(aeropuerto);
+    }
 }
