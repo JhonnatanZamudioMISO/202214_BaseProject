@@ -44,4 +44,15 @@ describe('AerolineaService', () => {
     expect(aerolineas).toHaveLength(listaAerolineas.length);
   });
 
+  it('findOne deberia retornar una aerolinea por id', async () => {
+    const aerolineaGuardada: AerolineaEntity = listaAerolineas[0];
+    const aerolinea: AerolineaEntity = await service.findOne(aerolineaGuardada.id);
+    expect(aerolinea).not.toBeNull();
+    expect(aerolinea.nombre).toEqual(aerolineaGuardada.nombre)
+    expect(aerolinea.descripcion).toEqual(aerolineaGuardada.descripcion)
+    expect(aerolinea.fechaFundacion).toEqual(aerolineaGuardada.fechaFundacion)
+    expect(aerolinea.paginaWeb).toEqual(aerolineaGuardada.paginaWeb)
+  });
+
+
 });
