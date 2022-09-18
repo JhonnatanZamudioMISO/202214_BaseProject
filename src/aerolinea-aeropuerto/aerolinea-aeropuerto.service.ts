@@ -41,7 +41,7 @@ export class AerolineaAeropuertoService {
           throw new BusinessLogicException("No se encontró la aerolinea con la identificación proporcionada", BusinessError.NOT_FOUND)
         const aerolineaAeropuerto: AeropuertoEntity = aerolinea.aeropuertos.find(e => e.id === aeropuerto.id);
         if (!aerolineaAeropuerto)
-          throw new BusinessLogicException("El aeropuerto con el id proporcionado no está asociada a la aerolinea.", BusinessError.PRECONDITION_FAILED)
+          throw new BusinessLogicException("El aeropuerto con el id proporcionado no está asociada a la aerolinea", BusinessError.PRECONDITION_FAILED)
         return aerolineaAeropuerto;
     }
 
@@ -56,6 +56,20 @@ export class AerolineaAeropuertoService {
         }
         aerolinea.aeropuertos = aeropuertos;
         return await this.aerolineaRepository.save(aerolinea);
+    }
+
+    async deleteAirportFromAirline(aerolineaId: string, aeropuertoId: string){
+        const aeropuerto: AeropuertoEntity = await this.aeropuertoRepository.findOne({where: {id: aeropuertoId}});
+        if (!aeropuerto)
+          throw new BusinessLogicException("No se encontró el aeropuerto con la identificación proporcionada", BusinessError.NOT_FOUND)
+        const aerolinea: AerolineaEntity = await this.aerolineaRepository.findOne({where: {id: aerolineaId}, relations: ["aeropuertos"]});
+        if (!aerolinea)
+          throw new BusinessLogicException("No se encontró la aerolinea con la identificación proporcionada", BusinessError.NOT_FOUND)
+        const aerolineaAeropuerto: AeropuertoEntity = aerolinea.aeropuertos.find(e => e.id === aeropuerto.id);
+        if (!aerolineaAeropuerto)
+            throw new BusinessLogicException("El aeropuerto con el id proporcionado no está asociada a la aerolinea", BusinessError.PRECONDITION_FAILED)
+        aerolinea.aeropuertos = aerolinea.aeropuertos.filter(e => e.id !== aeropuertoId);
+        await this.aerolineaRepository.save(aerolinea);
     }
 
 }
