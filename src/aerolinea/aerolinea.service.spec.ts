@@ -58,5 +58,24 @@ describe('AerolineaService', () => {
     await expect(() => service.findOne("0")).rejects.toHaveProperty("message", "No se encontró la aerolinea con la identificación proporcionada")
   });
 
+  it('create deberia retornar una nueva aerolinea', async () => {
+    const aerolinea: AerolineaEntity = {
+      id: "",
+      nombre: faker.company.name(), 
+      descripcion: faker.lorem.sentence(), 
+      fechaFundacion: faker.date.between('2000-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
+      paginaWeb: faker.image.imageUrl(),
+      aeropuertos: []
+    }
+    const aerolineaNueva: AerolineaEntity = await service.create(aerolinea);
+    expect(aerolinea).not.toBeNull();
+    const aerolineaGuardada: AerolineaEntity = await repository.findOne({where: {id: aerolineaNueva.id}})
+    expect(aerolineaGuardada).not.toBeNull();
+    expect(aerolineaGuardada.nombre).toEqual(aerolineaNueva.nombre)
+    expect(aerolineaGuardada.descripcion).toEqual(aerolineaNueva.descripcion)
+    expect(aerolineaGuardada.fechaFundacion).toEqual(aerolineaNueva.fechaFundacion)
+    expect(aerolineaGuardada.paginaWeb).toEqual(aerolineaNueva.paginaWeb)
+  });
+
 
 });
