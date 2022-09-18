@@ -57,4 +57,23 @@ describe('AeropuertoService', () => {
   it('findOne deberia mostrar una excepción cuando el id del aeropuerto no existe', async () => {
     await expect(() => service.findOne("0")).rejects.toHaveProperty("message", "No se encontró el aeropuerto con la identificación proporcionada")
   });
+
+  it('create deberia retornar un nuevo aeropuerto', async () => {
+    const aeropuerto: AeropuertoEntity = {
+      id: "",
+      nombre: faker.company.name(),
+      codigo: faker.lorem.word(3),
+      pais: faker.address.country(),
+      ciudad: faker.address.city(),
+      aerolineas: []
+    }
+    const aeropuertoNuevo: AeropuertoEntity = await service.create(aeropuerto);
+    expect(aeropuerto).not.toBeNull();
+    const aeropuertoGuardado: AeropuertoEntity = await repository.findOne({where: {id: aeropuertoNuevo.id}})
+    expect(aeropuertoGuardado).not.toBeNull();
+    expect(aeropuertoGuardado.nombre).toEqual(aeropuertoNuevo.nombre)
+    expect(aeropuertoGuardado.codigo).toEqual(aeropuertoNuevo.codigo)
+    expect(aeropuertoGuardado.pais).toEqual(aeropuertoNuevo.pais)
+    expect(aeropuertoGuardado.ciudad).toEqual(aeropuertoNuevo.ciudad)
+  });
 });
