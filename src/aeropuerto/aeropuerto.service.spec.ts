@@ -123,4 +123,9 @@ describe('AeropuertoService', () => {
     const aeropuertoEliminado: AeropuertoEntity = await repository.findOne({ where: { id: aeropuerto.id } })
     expect(aeropuertoEliminado).toBeNull();
   });
+
+  it('delete deberia mostrar una excepción cuando el id del aeropuerto no existe', async () => {
+    await expect(() => service.delete("0")).rejects.toHaveProperty("message", "No se encontró el aeropuerto con la identificación proporcionada")
+  });
+
 });
