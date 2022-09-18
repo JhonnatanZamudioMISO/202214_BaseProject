@@ -101,5 +101,14 @@ describe('AerolineaService', () => {
     expect(aerolineaGuardada.descripcion).toEqual(aerolinea.descripcion)
   });
 
+  it('update deberia mostrar una excepción cuando el id de la aerolinea no existe', async () => {
+    let aerolinea: AerolineaEntity = listaAerolineas[0];
+    aerolinea = {
+      ...aerolinea, nombre: "Nuevo nombre", descripcion: "Nueva descripción"
+    }
+    await expect(() => service.update("0", aerolinea)).rejects.toHaveProperty("message", "No se encontró la aerolinea con la identificación proporcionada")
+  });
+
+
 
 });
