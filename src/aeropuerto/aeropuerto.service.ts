@@ -27,4 +27,14 @@ export class AeropuertoService {
             throw new BusinessLogicException("El código del aeropuerto debe tener 3 caracteres", BusinessError.NOT_FOUND);
         return await this.aeropuertoRepository.save(aeropuerto);
     }
+
+    async update(id: string, aeropuerto: AeropuertoEntity): Promise<AeropuertoEntity> {
+        const aeropuertoGuardado: AeropuertoEntity = await this.aeropuertoRepository.findOne({where:{id}});
+        if (!aeropuertoGuardado)
+          throw new BusinessLogicException("No se encontró el aeropuerto con la identificación proporcionada", BusinessError.NOT_FOUND);
+        if(aeropuerto.codigo.length != 3)
+          throw new BusinessLogicException("El código del aeropuerto debe tener 3 caracteres", BusinessError.NOT_FOUND);
+        aeropuerto.id = id;
+        return await this.aeropuertoRepository.save(aeropuerto);
+    }
 }
