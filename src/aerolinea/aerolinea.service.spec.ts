@@ -54,5 +54,9 @@ describe('AerolineaService', () => {
     expect(aerolinea.paginaWeb).toEqual(aerolineaGuardada.paginaWeb)
   });
 
+  it('findOne deberia mostrar una excepción cuando el id de la aerolinea no existe', async () => {
+    await expect(() => service.findOne("0")).rejects.toHaveProperty("message", "No se encontró la aerolinea con la identificación proporcionada")
+  });
+
 
 });
