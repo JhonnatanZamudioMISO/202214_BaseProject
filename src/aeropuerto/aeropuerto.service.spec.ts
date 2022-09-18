@@ -116,4 +116,11 @@ describe('AeropuertoService', () => {
     aeropuerto.pais = "Nuevo país";
     await expect(() => service.update(aeropuerto.id, aeropuerto)).rejects.toHaveProperty("message", "El código del aeropuerto debe tener 3 caracteres")
   });
+
+  it('delete deberia remover un aeropuerto', async () => {
+    const aeropuerto: AeropuertoEntity = listaAeropuertos[0];
+    await service.delete(aeropuerto.id);
+    const aeropuertoEliminado: AeropuertoEntity = await repository.findOne({ where: { id: aeropuerto.id } })
+    expect(aeropuertoEliminado).toBeNull();
+  });
 });
