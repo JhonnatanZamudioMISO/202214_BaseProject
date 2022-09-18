@@ -5,8 +5,11 @@ import { AerolineaEntity } from './aerolinea.entity';
 
 @Injectable()
 export class AerolineaService {
-    constructor(
-            @InjectRepository(AerolineaEntity)
+    constructor(@InjectRepository(AerolineaEntity)
             private readonly aerolineaRepository: Repository<AerolineaEntity>  
-        ){}
+    ){}
+
+    async findAll(): Promise<AerolineaEntity[]> {
+        return await this.aerolineaRepository.find({ relations: ["aeropuertos"] });
+    }
 }
