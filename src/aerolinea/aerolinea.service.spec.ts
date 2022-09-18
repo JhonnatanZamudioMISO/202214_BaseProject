@@ -77,5 +77,17 @@ describe('AerolineaService', () => {
     expect(aerolineaGuardada.paginaWeb).toEqual(aerolineaNueva.paginaWeb)
   });
 
+  it('create deberia mostrar una excepción cuando la Fecha Fundación es superior a la Fecha actual', async () => {
+    const aerolinea: AerolineaEntity = {
+      id: "",
+      nombre: faker.company.name(), 
+      descripcion: faker.lorem.sentence(), 
+      fechaFundacion: faker.date.between('2099-01-01T00:00:00.000Z', '2100-01-01T00:00:00.000Z'),
+      paginaWeb: faker.image.imageUrl(),
+      aeropuertos: []
+    }
+    await expect(() => service.create(aerolinea)).rejects.toHaveProperty("message", "La fecha de fundación no puede ser superior a la fecha actual")
+  });
+
 
 });
