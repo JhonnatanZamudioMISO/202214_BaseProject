@@ -109,6 +109,12 @@ describe('AerolineaService', () => {
     await expect(() => service.update("0", aerolinea)).rejects.toHaveProperty("message", "No se encontró la aerolinea con la identificación proporcionada")
   });
 
-
+  it('update deberia mostrar una excepción cuando la Fecha Fundación es superior a la Fecha actual', async () => {
+    const aerolinea: AerolineaEntity = listaAerolineas[0];
+    aerolinea.nombre = "Nuevo nombre";
+    aerolinea.descripcion = "Nueva descripción";
+    aerolinea.fechaFundacion = faker.date.between('2099-01-01T00:00:00.000Z', '2100-01-01T00:00:00.000Z');
+    await expect(() => service.update(aerolinea.id, aerolinea)).rejects.toHaveProperty("message", "La fecha de fundación no puede ser superior a la fecha actual")
+  });
 
 });
