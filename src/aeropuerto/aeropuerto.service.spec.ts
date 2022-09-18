@@ -76,4 +76,16 @@ describe('AeropuertoService', () => {
     expect(aeropuertoGuardado.pais).toEqual(aeropuertoNuevo.pais)
     expect(aeropuertoGuardado.ciudad).toEqual(aeropuertoNuevo.ciudad)
   });
+
+  it('create deberia mostrar una excepción cuando el código del aeropuerto no tiene 3 caracteres', async () => {
+    const aeropuerto: AeropuertoEntity = {
+      id: "",
+      nombre: faker.company.name(),
+      codigo: faker.lorem.word(4),
+      pais: faker.address.country(),
+      ciudad: faker.address.city(),
+      aerolineas: []
+    }
+    await expect(() => service.create(aeropuerto)).rejects.toHaveProperty("message", "El código del aeropuerto debe tener 3 caracteres")
+  });
 });
