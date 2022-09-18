@@ -9,4 +9,8 @@ export class AeropuertoService {
         @InjectRepository(AeropuertoEntity)
         private readonly aeropuertoRepository: Repository<AeropuertoEntity>
     ){}
+
+    async findAll(): Promise<AeropuertoEntity[]> {
+        return await this.aeropuertoRepository.find({ relations: ["aerolineas"] });
+    }
 }
