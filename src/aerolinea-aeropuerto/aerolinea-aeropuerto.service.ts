@@ -23,6 +23,14 @@ export class AerolineaAeropuertoService {
           throw new BusinessLogicException("No se encontró la aerolinea con la identificación proporcionada", BusinessError.NOT_FOUND);
         aerolinea.aeropuertos = [...aerolinea.aeropuertos, aeropuerto];
         return await this.aerolineaRepository.save(aerolinea);
-      }
+    }
+
+    async findAirportsFromAirline(aerolineaId: string): Promise<AeropuertoEntity[]> {
+        const aerolinea: AerolineaEntity = await this.aerolineaRepository.findOne({where: {id: aerolineaId}, relations: ["aeropuertos"]});
+        if (!aerolinea)
+          throw new BusinessLogicException("No se encontró la aerolinea con la identificación proporcionada", BusinessError.NOT_FOUND)
+        return aerolinea.aeropuertos;
+    }
+
  
 }
