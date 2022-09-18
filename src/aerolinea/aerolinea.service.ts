@@ -27,4 +27,15 @@ export class AerolineaService {
             throw new BusinessLogicException("La fecha de fundación no puede ser superior a la fecha actual", BusinessError.NOT_FOUND);
         return await this.aerolineaRepository.save(aerolinea);
     }
+
+    async update(id: string, aerolinea: AerolineaEntity): Promise<AerolineaEntity> {
+        const aerolineaGuardada: AerolineaEntity = await this.aerolineaRepository.findOne({where:{id}});
+        const fechaActual: Date = new Date();
+        if (!aerolineaGuardada)
+          throw new BusinessLogicException("No se encontró la aerolinea con la identificación proporcionada", BusinessError.NOT_FOUND);
+        if(aerolinea.fechaFundacion > fechaActual)
+          throw new BusinessLogicException("La fecha de fundación no puede ser superior a la fecha actual", BusinessError.NOT_FOUND);
+        aerolinea.id = id;
+        return await this.aerolineaRepository.save(aerolinea);
+    }
 }
