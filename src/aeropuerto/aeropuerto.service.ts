@@ -21,4 +21,10 @@ export class AeropuertoService {
           throw new BusinessLogicException("No se encontró el aeropuerto con la identificación proporcionada", BusinessError.NOT_FOUND);
         return aeropuerto;
     }
+
+    async create(aeropuerto: AeropuertoEntity): Promise<AeropuertoEntity> {
+        if(aeropuerto.codigo.length != 3)
+            throw new BusinessLogicException("El código del aeropuerto debe tener 3 caracteres", BusinessError.NOT_FOUND);
+        return await this.aeropuertoRepository.save(aeropuerto);
+    }
 }
