@@ -10,7 +10,7 @@ export class AeropuertoEntity {
     nombre: string;
 
     @Column()
-    codigo:number;
+    codigo:string;
 
     @Column()
     pais:string;
