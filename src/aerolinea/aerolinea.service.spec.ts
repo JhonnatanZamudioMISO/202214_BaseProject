@@ -117,4 +117,11 @@ describe('AerolineaService', () => {
     await expect(() => service.update(aerolinea.id, aerolinea)).rejects.toHaveProperty("message", "La fecha de fundación no puede ser superior a la fecha actual")
   });
 
+  it('delete deberia remover la aerolinea', async () => {
+    const aerolinea: AerolineaEntity = listaAerolineas[0];
+    await service.delete(aerolinea.id);
+    const aerolineaEliminada: AerolineaEntity = await repository.findOne({ where: { id: aerolinea.id } })
+    expect(aerolineaEliminada).toBeNull();
+  });
+
 });
