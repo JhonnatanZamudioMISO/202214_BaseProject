@@ -12,4 +12,11 @@ export class AerolineaService {
     async findAll(): Promise<AerolineaEntity[]> {
         return await this.aerolineaRepository.find({ relations: ["aeropuertos"] });
     }
+
+    async findOne(id: string): Promise<AerolineaEntity> {
+        const aerolinea: AerolineaEntity = await this.aerolineaRepository.findOne({where: {id}, relations: ["aeropuertos"] } );
+        if (!aerolinea)
+          throw new BusinessLogicException("No se encontró la aerolinea con la identificación proporcionada", BusinessError.NOT_FOUND);
+        return museum;
+    }
 }
