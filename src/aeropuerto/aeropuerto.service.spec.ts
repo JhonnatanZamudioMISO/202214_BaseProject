@@ -108,4 +108,12 @@ describe('AeropuertoService', () => {
     }
     await expect(() => service.update("0", aeropuerto)).rejects.toHaveProperty("message", "No se encontró el aeropuerto con la identificación proporcionada")
   });
+
+  it('update deberia mostrar una excepción cuando el código del aeropuerto no tiene 3 caracteres', async () => {
+    const aeropuerto: AeropuertoEntity = listaAeropuertos[0];
+    aeropuerto.nombre = "Nuevo nombre";
+    aeropuerto.codigo = faker.lorem.word(4);
+    aeropuerto.pais = "Nuevo país";
+    await expect(() => service.update(aeropuerto.id, aeropuerto)).rejects.toHaveProperty("message", "El código del aeropuerto debe tener 3 caracteres")
+  });
 });
