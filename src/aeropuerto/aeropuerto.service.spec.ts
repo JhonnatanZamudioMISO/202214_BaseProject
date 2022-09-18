@@ -43,4 +43,14 @@ describe('AeropuertoService', () => {
     expect(aeropuertos).not.toBeNull();
     expect(aeropuertos).toHaveLength(listaAeropuertos.length);
   });
+
+  it('findOne deberia retornar un aeropuerto por id', async () => {
+    const aeropuertoGuardado: AeropuertoEntity = listaAeropuertos[0];
+    const aeropuerto: AeropuertoEntity = await service.findOne(aeropuertoGuardado.id);
+    expect(aeropuerto).not.toBeNull();
+    expect(aeropuerto.nombre).toEqual(aeropuertoGuardado.nombre)
+    expect(aeropuerto.codigo).toEqual(aeropuertoGuardado.codigo)
+    expect(aeropuerto.pais).toEqual(aeropuertoGuardado.pais)
+    expect(aeropuerto.ciudad).toEqual(aeropuertoGuardado.ciudad)
+  });
 });
