@@ -100,4 +100,12 @@ describe('AeropuertoService', () => {
     expect(aeropuertoGuardado.nombre).toEqual(aeropuerto.nombre)
     expect(aeropuertoGuardado.pais).toEqual(aeropuerto.pais)
   });
+
+  it('update deberia mostrar una excepción cuando el id del aeropuerto no existe', async () => {
+    let aeropuerto: AeropuertoEntity = listaAeropuertos[0];
+    aeropuerto = {
+      ...aeropuerto, nombre: "Nuevo nombre", pais: "Nuevo país"
+    }
+    await expect(() => service.update("0", aeropuerto)).rejects.toHaveProperty("message", "No se encontró el aeropuerto con la identificación proporcionada")
+  });
 });
