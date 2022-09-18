@@ -124,4 +124,8 @@ describe('AerolineaService', () => {
     expect(aerolineaEliminada).toBeNull();
   });
 
+  it('delete deberia mostrar una excepción cuando el id de la aerolinea no existe', async () => {
+    await expect(() => service.delete("0")).rejects.toHaveProperty("message", "No se encontró la aerolinea con la identificación proporcionada")
+  });
+
 });
