@@ -88,4 +88,16 @@ describe('AeropuertoService', () => {
     }
     await expect(() => service.create(aeropuerto)).rejects.toHaveProperty("message", "El código del aeropuerto debe tener 3 caracteres")
   });
+
+  it('update deberia modificar un aeropuerto', async () => {
+    const aeropuerto: AeropuertoEntity = listaAeropuertos[0];
+    aeropuerto.nombre = "Nuevo nombre";
+    aeropuerto.pais = "Nuevo país";
+    const aeropuertoActualizado: AeropuertoEntity = await service.update(aeropuerto.id, aeropuerto);
+    expect(aeropuertoActualizado).not.toBeNull();
+    const aeropuertoGuardado: AeropuertoEntity = await repository.findOne({ where: { id: aeropuerto.id } })
+    expect(aeropuertoGuardado).not.toBeNull();
+    expect(aeropuertoGuardado.nombre).toEqual(aeropuerto.nombre)
+    expect(aeropuertoGuardado.pais).toEqual(aeropuerto.pais)
+  });
 });
