@@ -14,10 +14,23 @@ describe('AerolineaService', () => {
       imports: [...TypeOrmTestingConfig()],
       providers: [AerolineaService],
     }).compile();
-
     service = module.get<AerolineaService>(AerolineaService);
     respository = module.get<Repository<AerolineaEntity>>(getRepositoryToken(AerolineaEntity));
   });
+
+  const seedDatabase = async () => {
+    repository.clear();
+    listaAerolineas = [];
+    for(let i = 0; i < 5; i++){
+        const aerolinea: AerolineaEntity = await repository.save({
+        nombre: faker.company.companyName(),
+        description: faker.lorem.sentence(),
+        address: faker.address.secondaryAddress(),
+        city: faker.address.city(),
+        image: faker.image.imageUrl()})
+        museumsList.push(museum);
+    }
+  }
 
   it('should be defined', () => {
     expect(service).toBeDefined();
