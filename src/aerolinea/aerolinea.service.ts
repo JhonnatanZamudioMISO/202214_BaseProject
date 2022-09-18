@@ -38,4 +38,11 @@ export class AerolineaService {
         aerolinea.id = id;
         return await this.aerolineaRepository.save(aerolinea);
     }
+
+    async delete(id: string) {
+        const aerolinea: AerolineaEntity = await this.aerolineaRepository.findOne({where:{id}});
+        if (!aerolinea)
+          throw new BusinessLogicException("No se encontró la aerolinea con la identificación proporcionada", BusinessError.NOT_FOUND);
+        await this.aerolineaRepository.remove(aerolinea);
+    }
 }
