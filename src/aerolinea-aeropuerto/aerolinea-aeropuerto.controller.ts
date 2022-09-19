@@ -1,4 +1,4 @@
-import { Controller, UseInterceptors } from '@nestjs/common';
+import { Controller, Param, Post, UseInterceptors } from '@nestjs/common';
 import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
 import { AerolineaAeropuertoService } from './aerolinea-aeropuerto.service';
 
@@ -6,5 +6,9 @@ import { AerolineaAeropuertoService } from './aerolinea-aeropuerto.service';
 @UseInterceptors(BusinessErrorsInterceptor)
 export class AerolineaAeropuertoController {
     constructor(private readonly aerolineaAeropuertoService: AerolineaAeropuertoService){}
-    
+
+    @Post(':aerolineaId/airports/:aeropuertoId')
+    async addAirportToAirline(@Param('aerolineaId') aerolineaId: string, @Param('aeropuertoId') aeropuertoId: string){
+        return await this.aerolineaAeropuertoService.addAirportToAirline(aerolineaId, aeropuertoId);
+    }
 }
