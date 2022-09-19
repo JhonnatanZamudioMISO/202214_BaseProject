@@ -112,4 +112,8 @@ describe('AerolineaAeropuertoService', () => {
     expect(aeropuertoGuardado.ciudad).toBe(aeropuerto.ciudad);
   });
 
+  it('findAirportFromAirline deberia mostrar una excepción cuando el aeropuerto no existe', async () => {
+    await expect(()=> service.findAirportFromAirline(aerolinea.id, "0")).rejects.toHaveProperty("message", "No se encontró el aeropuerto con la identificación proporcionada"); 
+  });
+
 });
