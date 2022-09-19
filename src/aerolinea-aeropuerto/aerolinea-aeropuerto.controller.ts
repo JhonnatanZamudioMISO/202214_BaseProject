@@ -12,6 +12,11 @@ export class AerolineaAeropuertoController {
         return await this.aerolineaAeropuertoService.addAirportToAirline(aerolineaId, aeropuertoId);
     }
 
+    @Get(':aerolineaId/airports')
+    async findAirportsFromAirline(@Param('aerolineaId') aerolineaId: string){
+        return await this.aerolineaAeropuertoService.findAirportsFromAirline(aerolineaId);
+    }
+
     @Get(':aerolineaId/airports/:aeropuertoId')
     async findAirportFromAirline(@Param('aerolineaId') aerolineaId: string, @Param('aeropuertoId') aeropuertoId: string){
         return await this.aerolineaAeropuertoService.findAirportFromAirline(aerolineaId, aeropuertoId);
