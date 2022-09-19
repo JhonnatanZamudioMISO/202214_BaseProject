@@ -131,4 +131,19 @@ describe('AerolineaAeropuertoService', () => {
     await expect(()=> service.findAirportFromAirline(aerolinea.id, nuevoAeropuerto.id)).rejects.toHaveProperty("message", "El aeropuerto con el id proporcionado no está asociada a la aerolinea"); 
   });
 
+  it('updateAirportsFromAirline deberia actualizar la lista de aeropuertos de una aerolinea', async () => {
+    const nuevoAeropuerto: AeropuertoEntity = await aeropuertoRepository.save({
+      nombre: faker.company.name(),
+      codigo: faker.lorem.word(3),
+      pais: faker.address.country(),
+      ciudad: faker.address.city()
+    });
+    const aerolineaActualizada: AerolineaEntity = await service.updateAirportsFromAirline(aerolinea.id, [nuevoAeropuerto]);
+    expect(aerolineaActualizada.aeropuertos.length).toBe(1);
+    expect(aerolineaActualizada.aeropuertos[0].nombre).toBe(nuevoAeropuerto.nombre);
+    expect(aerolineaActualizada.aeropuertos[0].codigo).toBe(nuevoAeropuerto.codigo);
+    expect(aerolineaActualizada.aeropuertos[0].pais).toBe(nuevoAeropuerto.pais);
+    expect(aerolineaActualizada.aeropuertos[0].ciudad).toBe(nuevoAeropuerto.ciudad);
+  });
+
 });
