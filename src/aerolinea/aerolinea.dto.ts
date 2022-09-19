@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsDateString, IsNotEmpty, IsString, IsUrl } from "class-validator";
 
 export class AerolineaDto {
 
