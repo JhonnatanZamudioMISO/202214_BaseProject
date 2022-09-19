@@ -83,4 +83,14 @@ describe('AerolineaAeropuertoService', () => {
     await expect(() => service.addAirportToAirline(nuevaAerolinea.id, "0")).rejects.toHaveProperty("message", "No se encontró el aeropuerto con la identificación proporcionada");
   });
 
+  it('addAirportToAirline deberia mostrar una excepción cuando la aerolinea no existe', async () => {
+    const nuevoAeropuerto: AeropuertoEntity = await aeropuertoRepository.save({
+      nombre: faker.company.name(),
+      codigo: faker.lorem.word(3),
+      pais: faker.address.country(),
+      ciudad: faker.address.city()
+    });
+    await expect(() => service.addAirportToAirline("0", nuevoAeropuerto.id)).rejects.toHaveProperty("message", "No se encontró la aerolinea con la identificación proporcionada");
+  });
+
 });
