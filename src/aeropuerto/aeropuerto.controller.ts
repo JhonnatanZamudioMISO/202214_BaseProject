@@ -1,4 +1,8 @@
 import { Controller } from '@nestjs/common';
+import { AeropuertoService } from './aeropuerto.service';
 
-@Controller('aeropuerto')
-export class AeropuertoController {}
+@Controller('airports')
+export class AeropuertoController {
+    constructor(private readonly aeropuertoService: AeropuertoService) {}
+    
+}
