@@ -1,5 +1,8 @@
-import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseInterceptors } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
+import { AerolineaDto } from './aerolinea.dto';
+import { AerolineaEntity } from './aerolinea.entity';
 import { AerolineaService } from './aerolinea.service';
 
 @UseInterceptors(BusinessErrorsInterceptor)
@@ -15,5 +18,11 @@ export class AerolineaController {
     @Get(':aerolineaId')
     async findOne(@Param('aerolineaId') aerolineaId: string) {
         return await this.aerolineaService.findOne(aerolineaId);
+    }
+
+    @Post()
+    async create(@Body() aerolineaDto: AerolineaDto) {
+        const aerolinea: AerolineaEntity = plainToInstance(AerolineaEntity, aerolineaDto);
+        return await this.aerolineaService.create(aerolinea);
     }
 }
