@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseInterceptors } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { AeropuertoDto } from 'src/aeropuerto/aeropuerto.dto';
 import { AeropuertoEntity } from 'src/aeropuerto/aeropuerto.entity';
@@ -29,5 +29,11 @@ export class AerolineaAeropuertoController {
     async updateAirportsFromAirline(@Body() aeropuertosDto: AeropuertoDto[], @Param('aerolineaId') aerolineaId: string){
         const aeropuertos = plainToInstance(AeropuertoEntity, aeropuertosDto)
         return await this.aerolineaAeropuertoService.updateAirportsFromAirline(aerolineaId, aeropuertos);
+    }
+
+    @Delete(':aerolineaId/airports/:aeropuertoId')
+    @HttpCode(204)
+    async deleteAirportFromAirline(@Param('aerolineaId') aerolineaId: string, @Param('aeropuertoId') aeropuertoId: string){
+        return await this.aerolineaAeropuertoService.deleteAirportFromAirline(aerolineaId, aeropuertoId);
     }
 }
