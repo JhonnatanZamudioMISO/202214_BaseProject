@@ -102,4 +102,14 @@ describe('AerolineaAeropuertoService', () => {
     await expect(()=> service.findAirportsFromAirline("0")).rejects.toHaveProperty("message", "No se encontró la aerolinea con la identificación proporcionada"); 
   });
 
+  it('findAirportFromAirline deberia retorna el aeropuerto de una aerolinea', async () => {
+    const aeropuerto: AeropuertoEntity = listaAeropuertos[0];
+    const aeropuertoGuardado: AeropuertoEntity = await service.findAirportFromAirline(aerolinea.id, aeropuerto.id);
+    expect(aeropuertoGuardado).not.toBeNull();
+    expect(aeropuertoGuardado.nombre).toBe(aeropuerto.nombre);
+    expect(aeropuertoGuardado.codigo).toBe(aeropuerto.codigo);
+    expect(aeropuertoGuardado.pais).toBe(aeropuerto.pais);
+    expect(aeropuertoGuardado.ciudad).toBe(aeropuerto.ciudad);
+  });
+
 });
