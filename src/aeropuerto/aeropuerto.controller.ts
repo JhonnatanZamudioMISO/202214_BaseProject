@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseInterceptors } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
 import { AeropuertoDto } from './aeropuerto.dto';
@@ -30,5 +30,11 @@ export class AeropuertoController {
     async update(@Param('aeropuertoId') aeropuertoId: string, @Body() aeropuertoDto: AeropuertoDto) {
         const aeropuerto: AeropuertoEntity = plainToInstance(AeropuertoEntity, aeropuertoDto);
         return await this.aeropuertoService.update(aeropuertoId, aeropuerto);
+    }
+
+    @Delete(':aeropuertoId')
+    @HttpCode(204)
+    async delete(@Param('aeropuertoId') aeropuertoId: string) {
+        return await this.aeropuertoService.delete(aeropuertoId);
     }
 }
