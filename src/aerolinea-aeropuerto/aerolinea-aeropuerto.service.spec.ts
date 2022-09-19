@@ -93,4 +93,9 @@ describe('AerolineaAeropuertoService', () => {
     await expect(() => service.addAirportToAirline("0", nuevoAeropuerto.id)).rejects.toHaveProperty("message", "No se encontró la aerolinea con la identificación proporcionada");
   });
 
+  it('findAirportsFromAirline deberia retornar los aeropuertos de una aerolinea', async ()=>{
+    const aeropuertos: AeropuertoEntity[] = await service.findAirportsFromAirline(aerolinea.id);
+    expect(aeropuertos.length).toBe(5)
+  });
+
 });
