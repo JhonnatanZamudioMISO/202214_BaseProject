@@ -162,4 +162,13 @@ describe('AerolineaAeropuertoService', () => {
     await expect(()=> service.updateAirportsFromAirline(aerolinea.id, [nuevoAeropuerto])).rejects.toHaveProperty("message", "No se encontró el aeropuerto con la identificación proporcionada"); 
   });
 
+  it('deleteAirportFromAirline deberia eliminar un aeropuerto de una aerolinea', async () => {
+    const aeropuerto: AeropuertoEntity = listaAeropuertos[0];
+    await service.deleteAirportFromAirline(aerolinea.id, aeropuerto.id);
+    const aerolineaGuardada: AerolineaEntity = await aerolineaRepository.findOne({where: {id: aerolinea.id}, relations: ["aeropuertos"]});
+    const aeropuertoEliminado: AeropuertoEntity = aerolineaGuardada.aeropuertos.find(a => a.id === aeropuerto.id);
+    expect(aeropuertoEliminado).toBeUndefined();
+  });
+
+
 });
