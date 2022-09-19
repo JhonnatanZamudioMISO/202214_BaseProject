@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseInterceptors } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
 import { AerolineaDto } from './aerolinea.dto';
@@ -24,5 +24,11 @@ export class AerolineaController {
     async create(@Body() aerolineaDto: AerolineaDto) {
         const aerolinea: AerolineaEntity = plainToInstance(AerolineaEntity, aerolineaDto);
         return await this.aerolineaService.create(aerolinea);
+    }
+
+    @Put(':aerolineaId')
+    async update(@Param('aerolineaId') aerolineaId: string, @Body() aerolineaDto: AerolineaDto) {
+        const aerolinea: AerolineaEntity = plainToInstance(AerolineaEntity, aerolineaDto);
+        return await this.aerolineaService.update(aerolineaId, aerolinea);
     }
 }
