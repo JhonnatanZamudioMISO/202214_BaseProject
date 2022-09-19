@@ -170,5 +170,9 @@ describe('AerolineaAeropuertoService', () => {
     expect(aeropuertoEliminado).toBeUndefined();
   });
 
+  it('deleteAirportFromAirline deberia mostrar una excepción cuando el aeropuerto no existe', async () => {
+    await expect(()=> service.deleteAirportFromAirline(aerolinea.id, "0")).rejects.toHaveProperty("message", "No se encontró el aeropuerto con la identificación proporcionada"); 
+  });
+
 
 });
