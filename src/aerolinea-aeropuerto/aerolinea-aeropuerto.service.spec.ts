@@ -58,7 +58,6 @@ describe('AerolineaAeropuertoService', () => {
       pais: faker.address.country(),
       ciudad: faker.address.city()
     });
-
     const nuevaAerolinea: AerolineaEntity = await aerolineaRepository.save({
       nombre: faker.company.name(),
       descripcion: faker.lorem.sentence(),
@@ -72,6 +71,16 @@ describe('AerolineaAeropuertoService', () => {
     expect(result.aeropuertos[0].codigo).toBe(nuevoAeropuerto.codigo)
     expect(result.aeropuertos[0].pais).toBe(nuevoAeropuerto.pais)
     expect(result.aeropuertos[0].ciudad).toBe(nuevoAeropuerto.ciudad)
+  });
+
+  it('addAirportToAirline deberia mostrar una excepción cuando el aeropuerto no existe', async () => {
+    const nuevaAerolinea: AerolineaEntity = await aerolineaRepository.save({
+      nombre: faker.company.name(),
+      descripcion: faker.lorem.sentence(),
+      fechaFundacion: faker.date.between('2000-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
+      paginaWeb: faker.internet.url()
+    })
+    await expect(() => service.addAirportToAirline(nuevaAerolinea.id, "0")).rejects.toHaveProperty("message", "No se encontró el aeropuerto con la identificación proporcionada");
   });
 
 });
