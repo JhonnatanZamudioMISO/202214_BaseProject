@@ -179,5 +179,14 @@ describe('AerolineaAeropuertoService', () => {
     await expect(()=> service.deleteAirportFromAirline("0", aeropuerto.id)).rejects.toHaveProperty("message", "No se encontró la aerolinea con la identificación proporcionada"); 
   });
 
+  it('deleteAirportFromAirline deberia mostrar una excepción cuando un aeropuerto no esta asociado a una aerolinea', async () => {
+    const nuevoAeropuerto: AeropuertoEntity = await aeropuertoRepository.save({
+      nombre: faker.company.name(),
+      codigo: faker.lorem.word(3),
+      pais: faker.address.country(),
+      ciudad: faker.address.city()
+    });
+    await expect(()=> service.deleteAirportFromAirline(aerolinea.id, nuevoAeropuerto.id)).rejects.toHaveProperty("message", "El aeropuerto con el id proporcionado no está asociada a la aerolinea"); 
+  }); 
 
 });
