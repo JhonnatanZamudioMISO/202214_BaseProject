@@ -1,4 +1,4 @@
-import { Controller, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, UseInterceptors } from '@nestjs/common';
 import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
 import { AeropuertoService } from './aeropuerto.service';
 
@@ -7,4 +7,8 @@ import { AeropuertoService } from './aeropuerto.service';
 export class AeropuertoController {
     constructor(private readonly aeropuertoService: AeropuertoService) {}
 
+    @Get()
+    async findAll() {
+        return await this.aeropuertoService.findAll();
+    }
 }
