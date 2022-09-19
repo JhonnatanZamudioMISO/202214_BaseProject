@@ -42,7 +42,7 @@ describe('AerolineaAeropuertoService', () => {
       nombre: faker.company.name(),
       descripcion: faker.lorem.sentence(),
       fechaFundacion: faker.date.between('2000-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
-      paginaWeb: faker.image.imageUrl(),
+      paginaWeb: faker.internet.url(),
       aeropuertos: listaAeropuertos
     })
   }
@@ -50,4 +50,28 @@ describe('AerolineaAeropuertoService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('addAirportToAirline deberia asociar un aeropuerto a una aerolinea', async () => {
+    const nuevoAeropuerto: AeropuertoEntity = await aeropuertoRepository.save({
+      nombre: faker.company.name(),
+      codigo: faker.lorem.word(3),
+      pais: faker.address.country(),
+      ciudad: faker.address.city()
+    });
+
+    const nuevaAerolinea: AerolineaEntity = await aerolineaRepository.save({
+      nombre: faker.company.name(),
+      descripcion: faker.lorem.sentence(),
+      fechaFundacion: faker.date.between('2000-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
+      paginaWeb: faker.internet.url()
+    })
+    const result: AerolineaEntity = await service.addAirportToAirline(nuevaAerolinea.id, nuevoAeropuerto.id);
+    expect(result.aeropuertos.length).toBe(1);
+    expect(result.aeropuertos[0]).not.toBeNull();
+    expect(result.aeropuertos[0].nombre).toBe(nuevoAeropuerto.nombre)
+    expect(result.aeropuertos[0].codigo).toBe(nuevoAeropuerto.codigo)
+    expect(result.aeropuertos[0].pais).toBe(nuevoAeropuerto.pais)
+    expect(result.aeropuertos[0].ciudad).toBe(nuevoAeropuerto.ciudad)
+  });
+
 });
